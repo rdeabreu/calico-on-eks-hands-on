@@ -24,3 +24,41 @@ spec:
   tier: default
   types:
   - Ingress
+
+---
+
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: default.microseg-cartservice
+  namespace: default
+spec:
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 7070
+    protocol: TCP
+    source:
+      selector: (pci == "true"&&app == "checkoutservice")
+  - action: Allow
+    destination:
+      ports:
+      - 7070
+    protocol: TCP
+    source:
+      selector: (app == "checkoutservice"&&pci == "true")
+  - action: Allow
+    destination:
+      ports:
+      - 7070
+    protocol: TCP
+    source:
+      selector: (app == "frontend"&&pci == "true")
+  order: 2574.75
+  selector: (app == "cartservice"&&pci == "true")
+  tier: default
+  types:
+  - Ingress
+
+

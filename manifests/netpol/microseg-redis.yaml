@@ -1,0 +1,26 @@
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: default.microseg-redis
+  namespace: default
+spec:
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 6379
+    protocol: TCP
+    source:
+      selector: (app == "cartservice"&&pci == "true")
+  - action: Allow
+    destination:
+      ports:
+      - 6379
+    protocol: TCP
+    source:
+      selector: (pci == "true"&&app == "cartservice")
+  order: 100
+  selector: app == "redis-cart"
+  tier: default
+  types:
+  - Ingress

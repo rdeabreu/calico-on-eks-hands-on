@@ -1,0 +1,11 @@
+apiVersion: crd.projectcalico.org/v1
+kind: GlobalNetworkPolicy
+metadata:
+  name: default.default-deny
+spec:
+  order: 9999
+  selector: all()
+  tier: default
+  types:
+  - Ingress
+  - Egress

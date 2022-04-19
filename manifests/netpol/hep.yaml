@@ -1,0 +1,19 @@
+apiVersion: crd.projectcalico.org/v1
+kind: GlobalNetworkPolicy
+metadata:
+  name: platform.hep
+spec:
+  egress:
+  - action: Allow
+    destination: {}
+    source: {}
+  ingress:
+  - action: Allow
+    destination: {}
+    source: {}
+  order: 1
+  selector: kubernetes.io/os == "linux"
+  tier: platform
+  types:
+  - Ingress
+  - Egress

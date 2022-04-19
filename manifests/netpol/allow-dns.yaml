@@ -1,0 +1,58 @@
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: platform.allow-dns
+  namespace: kube-system
+spec:
+  egress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+    source: {}
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: TCP
+    source: {}
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+    source:
+      namespaceSelector: all()
+      selector: all()
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: UDP
+    source:
+      namespaceSelector: global()
+      selector: role == "k8snode"
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: TCP
+    source:
+      namespaceSelector: all()
+      selector: all()
+  - action: Allow
+    destination:
+      ports:
+      - 53
+    protocol: TCP
+    source:
+      namespaceSelector: global()
+      selector: role == "k8snode"
+  order: 0
+  selector: k8s-app == "kube-dns"
+  tier: platform
+  types:
+  - Ingress
+  - Egress

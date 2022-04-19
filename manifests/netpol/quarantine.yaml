@@ -1,0 +1,11 @@
+apiVersion: crd.projectcalico.org/v1
+kind: GlobalNetworkPolicy
+metadata:
+  name: quarantine.quarantine
+spec:
+  order: 0
+  selector: sec == "quarantine"
+  tier: quarantine
+  types:
+  - Ingress
+  - Egress

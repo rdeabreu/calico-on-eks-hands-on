@@ -1,0 +1,26 @@
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: security.pci-isolation
+  namespace: default
+spec:
+  egress:
+  - action: Allow
+    destination: {}
+    source: {}
+  ingress:
+  - action: Allow
+    destination: {}
+    source:
+      selector: app == "checkoutservice"
+  - action: Pass
+    destination: {}
+    source:
+      namespaceSelector: all()
+      selector: pci == "true"
+  order: 101
+  selector: pci == "true"
+  tier: security
+  types:
+  - Ingress
+  - Egress

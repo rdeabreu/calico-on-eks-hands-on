@@ -1,2 +1,9 @@
 # ws-apr-2022
-Workshops LATAM
+
+## Decrease the time to collect flow logs
+
+```
+kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
+```
+
+

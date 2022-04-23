@@ -1,0 +1,21 @@
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: platform.attacker-pinhole
+  namespace: default
+spec:
+  egress:
+  - action: Allow
+    destination:
+      namespaceSelector: all()
+    source: {}
+  ingress:
+  - action: Allow
+    destination: {}
+    source: {}
+  order: 200
+  selector: app == "attacker-app"
+  tier: platform
+  types:
+  - Ingress
+  - Egress

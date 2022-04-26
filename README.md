@@ -79,8 +79,15 @@ That will cerate a deny all rule which will catch up all the traffic that has no
 
 https://docs.tigera.io/security/policy-best-practices
 
+Now you will not be able to reach the application anymore, as we have effectively isolated all endpoints in our environment labeled as pci=true with a single policy, in combination with the default deny rule we implemented at the end of our policy chain.
 
+## Policy recommendation
 
+Now let's see how Calico can help us to build a microsegmentation policy in order to allow the traffic to our frontend service.
+
+Click in the Policy Recommendation button in the Policy Board:
+
+![policy-recommendation](./img/policy-recommendation.jpg)
 
 
 

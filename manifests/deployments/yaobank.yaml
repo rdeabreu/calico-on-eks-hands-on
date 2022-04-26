@@ -44,6 +44,7 @@ spec:
       app: database
       version: v1
       tenant: tenant1
+      pci: "true"
   replicas: 1
   template:
     metadata:
@@ -106,6 +107,7 @@ spec:
       app: summary
       version: v1
       tenant: tenant1
+      pci: "true"
   template:
     metadata:
       labels:
@@ -162,6 +164,7 @@ spec:
       version: v1
       tenant: tenant1
       ingress: "true"
+      pci: "true"
   template:
     metadata:
       labels:

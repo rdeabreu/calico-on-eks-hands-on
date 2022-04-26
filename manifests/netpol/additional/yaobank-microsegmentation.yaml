@@ -1,0 +1,63 @@
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.ingress-allow-all-to-summary
+  namespace: yaobank
+spec:
+  tier: default
+  order: 50
+  selector: app == "customer"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    destination:
+      ports:
+      - 80
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.ingress-allow-customer-to-summary
+  namespace: yaobank
+spec:
+  tier: default
+  order: 51
+  selector: app == "summary"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == "customer"
+    destination:
+      ports:
+      - 80
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: default.ingress-allow-summary-to-database
+  namespace: yaobank
+spec:
+  tier: default
+  order: 52
+  selector: app == "database"
+  types:
+    - Ingress  
+  ingress:
+  - action: Allow
+    protocol: TCP
+    source:
+      selector: app == "summary"
+    destination:
+      ports:
+      - 2379

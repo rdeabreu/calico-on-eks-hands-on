@@ -44,7 +44,6 @@ spec:
       app: database
       version: v1
       tenant: tenant1
-      pci: "true"
   replicas: 1
   template:
     metadata:
@@ -52,6 +51,7 @@ spec:
         app: database
         version: v1
         tenant: tenant1
+        pci: "true"
     spec:
       serviceAccountName: database
       containers:
@@ -107,13 +107,13 @@ spec:
       app: summary
       version: v1
       tenant: tenant1
-      pci: "true"
   template:
     metadata:
       labels:
         app: summary
         version: v1
         tenant: tenant1
+        pci: "true"
     spec:
       serviceAccountName: summary
       containers:
@@ -172,6 +172,7 @@ spec:
         version: v1
         tenant: tenant1
         ingress: "true"
+        pci: "true"
     spec:
       serviceAccountName: customer
       containers:

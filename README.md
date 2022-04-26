@@ -79,6 +79,12 @@ That will cerate a deny all rule which will catch up all the traffic that has no
 
 https://docs.tigera.io/security/policy-best-practices
 
+Finally, let's implement some microsegmentation rules for our yaobank application:
+
+```
+kubectl create -f manifests/netpol/additional/yaobank 
+```
+
 Now you will not be able to reach the application anymore, as we have effectively isolated all endpoints in our environment labeled as pci=true with a single policy, in combination with the default deny rule we implemented at the end of our policy chain.
 
 ## Policy recommendation

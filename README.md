@@ -87,7 +87,7 @@ Now let's see how Calico can help us to build a microsegmentation policy in orde
 
 Click in the Policy Recommendation button in the Policy Board:
 
-![policy-recommendation](./img/policy-recommendation.jpg)
+![policy-recommendation](./img/policy-recommendation.png)
 
 
 

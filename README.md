@@ -28,7 +28,9 @@ Go to the "Managed clusters" section in Calico Cloud once you login, and click o
 
 ![managed-clusters](./img/managed-clusters.png)
 
-## Create a Tier structure
+## Reduce the Attack surface of your environment, and follow a Zero Trust approach
+
+### Create a Tier structure
 
 Tiers are a hierarchical construct used to group policies and enforce higher precedence policies that cannot be circumvented by other teams. 
 
@@ -43,7 +45,7 @@ For example, if policy D in Tier 2 includes a Pass action rule, but no policy ma
 
 ![endpoint-match](./img/endpoint-match.svg)
 
-## Deploy an application
+### Deploy an application
 
 We included an small test application, but you can use your own:
 
@@ -65,7 +67,7 @@ kubectl get svc -n yaobank
 
 You will see the yaobank deployment the corresponding label "pci=true", that label will be matched with our policies to isolate the PCI workloads, and show how Calico's tiered security policies work.
 
-## Apply the Security Policies
+### Apply the Security Policies
 
 Apply all the policies in the directory below:
 
@@ -93,7 +95,7 @@ kubectl create -f manifests/netpol/additional/yaobank
 
 Now you will not be able to reach the application anymore, as we have effectively isolated all endpoints in our environment labeled as pci=true with a single policy, in combination with the default deny rule we implemented at the end of our policy chain.
 
-## Policy recommendation
+### Policy recommendation
 
 Now let's see how Calico can help us to build a microsegmentation policy in order to allow the traffic to our frontend service.
 
@@ -117,6 +119,20 @@ Now you should be able to access the yaobank application in your browser.
   
 https://docs.tigera.io/compliance/overview
   
+## Housekeeping
+  
+Remove the previous deployed Security policies:
+  
+```
+kubectl delete -f manifests/netpol/ws/
+```
+```
+kubectl delete -f manifests/netpol
+```
+```
+kubectl delete -f manifests/netpol/additional/yaobank 
+```
+
 
 
 

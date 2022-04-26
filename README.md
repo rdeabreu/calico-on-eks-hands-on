@@ -26,7 +26,6 @@ For normal policy processing (without apply-on-forward, pre-DNAT, and do-not-tra
 For example, if policy D in Tier 2 includes a Pass action rule, but no policy matches endpoints in Tier 3, Tier 3 is skipped, including the end of tier deny. The first policy with a matching endpoint is in Tier 4, policy J.
 
 ![endpoint-match](./img/endpoint-match.svg)
-<img src="./img/endpoint-match.svg">
 
 ##
 

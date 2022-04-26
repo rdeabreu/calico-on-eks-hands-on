@@ -1,0 +1,179 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yaobank
+  labels:
+    istio-injection: disabled
+    tenant: tenant1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: yaobank
+  labels:
+    app: database
+    tenant: tenant1
+spec:
+  ports:
+  - port: 2379
+    name: http
+  selector:
+    app: database
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: database
+  namespace: yaobank
+  labels:
+    app: yaobank
+    tenant: tenant1
+
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: yaobank
+spec:
+  selector:
+    matchLabels:
+      app: database
+      version: v1
+      tenant: tenant1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: database
+        version: v1
+        tenant: tenant1
+    spec:
+      serviceAccountName: database
+      containers:
+      - name: database
+        image: calico/yaobank-database:certification
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 2379
+        command: ["etcd"]
+        args:
+          - "-advertise-client-urls"
+          - "http://database:2379"
+          - "-listen-client-urls"
+          - "http://0.0.0.0:2379"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: summary
+  namespace: yaobank
+  labels:
+    app: summary
+    tenant: tenant1
+spec:
+  ports:
+  - port: 80
+    name: http
+  selector:
+    app: summary
+    
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: summary
+  namespace: yaobank
+  labels:
+    app: yaobank
+    database: reader
+    tenant: tenant1
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summary
+  namespace: yaobank
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: summary
+      version: v1
+      tenant: tenant1
+  template:
+    metadata:
+      labels:
+        app: summary
+        version: v1
+        tenant: tenant1
+    spec:
+      serviceAccountName: summary
+      containers:
+      - name: summary
+        image: calico/yaobank-summary:certification
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+ 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: customer
+    tenant: tenant1
+  name: customer
+  namespace: yaobank
+spec:
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: customer
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: customer
+  namespace: yaobank
+  labels:
+    app: yaobank
+    summary: reader
+    tenant: tenant1
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer
+  namespace: yaobank
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: customer
+      version: v1
+      tenant: tenant1
+      ingress: "true"
+  template:
+    metadata:
+      labels:
+        app: customer
+        version: v1
+        tenant: tenant1
+        ingress: "true"
+    spec:
+      serviceAccountName: customer
+      containers:
+      - name: customer
+        image: calico/yaobank-customer:certification
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

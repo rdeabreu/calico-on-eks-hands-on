@@ -59,6 +59,26 @@ kubectl get svc -n yaobank
 
 You will see the yaobank deployment the corresponding label "pci=true", that label will be matched with our policies to isolate the PCI workloads, and show how Calico's tiered security policies work.
 
+## Apply the Security Policies
+
+Apply all the policies in the directory below:
+
+```
+kubectl create -f manifests/netpol
+```
+
+That will create a quarantine policy we will use later, another policy to protect our coredns service, and a third policy in case we want to enforce traffic on the k8s nodes themselves.
+
+Now let's create the polcies in the folder below:
+
+```
+kubectl create -f manifests/netpol/ws/
+```
+
+That will cerate a deny all rule which will catch up all the traffic that has not been matched explicitly, so it will allow us to implement a Zero-Trust approach in our environment. For a further explanation on how a Zero-Trust model can help you to mitigate threats in your environment, and other security policies recommendations and best practices, please check: 
+
+https://docs.tigera.io/security/policy-best-practices
+
 
 
 

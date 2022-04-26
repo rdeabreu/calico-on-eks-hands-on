@@ -26,7 +26,7 @@ kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":
 
 Go to the "Managed clusters" section in Calico Cloud once you login, and click on the "Connect Cluster" button, then leave "Amazon EKS" selected, and give a name to your cluster, and click "Next". Read the cluster requirements in teh next section, and click "Next". Finally, copy the kubectl command you must run in order to connect your cluster to the management cluster for your Calico Cloud instance.
 
-![managed-cluster](./img/managed-cluster.png)
+![managed-clusters](./img/managed-clusters.png)
 
 ## Create a Tier structure
 

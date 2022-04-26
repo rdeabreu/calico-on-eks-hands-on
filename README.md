@@ -1,8 +1,18 @@
-# ws-apr-2022
+# Hands-on EKS Workshop
 
 ## Preparation
 
 Once you clone the repo, all the yaml files to be applied below are in the "manifests" folder.
+
+### Create your EKS cluster
+
+Calico can be used as a CNI, or you can decide to use AWS VPC networking and have Calico only as plugin for the security policies. 
+
+We will use the second approach during the workshop. Below an example on how to create a two nodes cluster with an smaller footprint, but feel free to create your EKS cluster with the parameters you prefer. Do not forget to include the region if different than the default on your account.
+
+```
+eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.large
+```
 
 ### Decrease the time to collect flow logs
 
@@ -27,6 +37,33 @@ For example, if policy D in Tier 2 includes a Pass action rule, but no policy ma
 
 ![endpoint-match](./img/endpoint-match.svg)
 
-##
+## Deploy an application
+
+We included an small test application, but you can use your own:
+
+```
+kubectl create -f manifests/deployments/yaobank.yaml
+```
+
+If using the test application above, expose the frontend service in your EKS cluster:
+
+```
+kubectl expose svc customer -n yaobank --type LoadBalancer --name yaobank --port 80
+```
+
+If you check your services in the yaobank namespace, you should have an external FQDN associated with the service you created above pointing to an AWS LB. Check you can resolve that FQDN, and then verify you can reach the yaobank application in your browser.
+
+```
+kubectl get svc -n yaobank
+```
+
+You will see the yaobank deployment the corresponding label "pci=true", that label will be matched with our policies to isolate the PCI workloads, and show how Calico's tiered security policies work.
+
+
+
+
+
+
+
 
 

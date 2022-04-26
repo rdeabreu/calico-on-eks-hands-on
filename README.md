@@ -107,6 +107,14 @@ The policy will be created at the end of your policy chain (at the bottom of the
 
 Now you should be able to access the yaobank application in your browser.
 
+## Deploy Honeypods
+  
+https://docs.tigera.io/threat/honeypod/honeypods
+  
+## Compliance reports
+  
+https://docs.tigera.io/compliance/overview
+  
 
 
 

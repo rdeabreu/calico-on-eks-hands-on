@@ -23,33 +23,13 @@ spec:
       ports:
       - 53
     protocol: UDP
-    source:
-      namespaceSelector: all()
-      selector: all()
-  - action: Allow
-    destination:
-      ports:
-      - 53
-    protocol: UDP
-    source:
-      namespaceSelector: global()
-      selector: role == "k8snode"
+    source: {}
   - action: Allow
     destination:
       ports:
       - 53
     protocol: TCP
-    source:
-      namespaceSelector: all()
-      selector: all()
-  - action: Allow
-    destination:
-      ports:
-      - 53
-    protocol: TCP
-    source:
-      namespaceSelector: global()
-      selector: role == "k8snode"
+    source: {}
   order: 0
   selector: k8s-app == "kube-dns"
   tier: platform

@@ -136,7 +136,7 @@ Expose one of the pods:
 kubectl expose pod nginx1 --name nginx-svc --port 80
 ```
   
-Label both pods, so we can open the traffic for them with a security polciy,and they do not hit the default deny rule:
+Label both pods, so we can open the traffic for them with a security polciy, and they do not hit the default deny rule:
   
 ```
 kubectl label pod --all app=nginx
@@ -154,7 +154,7 @@ And now, implement DPI for them:
 kubectl create -f manifests/dpi/dpi.yaml
 ```
 
-This will create a daemonset, with some pods running in the tigera-dpi namesapce. The pods will take a while to be ready dependiong on the cluster you created, you can check proress with:
+This will create a daemonset, with some pods running in the tigera-dpi namesapce. The pods will take a while to be ready dependiong on the cluster you created, you can check progress with:
   
 ```
 kubectl get pod -n tigera-dpi -w

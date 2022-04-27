@@ -145,7 +145,7 @@ kubectl label pod --all app=nginx
 Then, create a policy for the pods:
   
 ```
-kubectl delete -f manifests/netpol/additional/dpi/dpi-test-policy.yaml
+kubectl create -f manifests/netpol/additional/dpi/dpi-test-policy.yaml
 ```
 
 And now, implement DPI for them:

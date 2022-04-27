@@ -53,6 +53,12 @@ We included an small test application, but you can use your own:
 kubectl create -f manifests/deployments/yaobank.yaml
 ```
 
+Make sure all pods are running:
+
+```
+kubectl get pod -n yaobank 
+```
+
 If using the test application above, expose the frontend service in your EKS cluster:
 
 ```

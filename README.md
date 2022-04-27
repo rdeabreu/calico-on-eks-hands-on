@@ -14,14 +14,6 @@ We will use the second approach during the workshop. Below an example on how to 
 eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.large
 ```
 
-### Decrease the time to collect flow logs
-
-By default, flow logs are collected every 5 minutes. We will decrease that time to 30 seconds, which will increase the amount of information we must store, and while that is not recommended for production environments, it will help to speed up the time in which events are seen within Calico observability features.
-
-```
-kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
-```
-
 ### Connect your cluster to Calico Cloud
 
 Go to the "Managed clusters" section in Calico Cloud once you login, and click on the "Connect Cluster" button, then leave "Amazon EKS" selected, and give a name to your cluster, and click "Next". Read the cluster requirements in teh next section, and click "Next". Finally, copy the kubectl command you must run in order to connect your cluster to the management cluster for your Calico Cloud instance.
@@ -29,6 +21,14 @@ Go to the "Managed clusters" section in Calico Cloud once you login, and click o
 ![managed-clusters](./img/managed-clusters.png)
 
 ## Reduce the Attack surface of your environment, and follow a Zero Trust approach
+
+### Decrease the time to collect flow logs
+
+By default, flow logs are collected every 5 minutes. We will decrease that time to 30 seconds, which will increase the amount of information we must store, and while that is not recommended for production environments, it will help to speed up the time in which events are seen within Calico observability features.
+
+```
+kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
+```
 
 ### Create a Tier structure
 

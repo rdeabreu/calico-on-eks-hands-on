@@ -184,6 +184,20 @@ https://docs.tigera.io/compliance/overview
   
 ## Housekeeping
   
+Disable DPI:
+  
+```
+kubectl delete -f manifests/dpi/dpi.yaml
+```
+  
+Delete both nginx pods and service:
+  
+```
+kubectl delete pod nginx1
+kubectl delete pod nginx2
+kubectl delete svc nginx-svc
+```
+
 Remove the previous deployed Security policies:
   
 ```
@@ -194,6 +208,15 @@ kubectl delete -f manifests/netpol
 ```
 ```
 kubectl delete -f manifests/netpol/additional/yaobank 
+```
+```
+kubectl delete -f manifests/netpol/additional/dpi/dpi-test-policy.yaml
+```
+
+Remove the yaobank application:
+  
+```
+kubectl delete ns yaobank
 ```
 
 If you used policy recommendation to create a policy to access the yaobank application, remove it from the Policy Board.

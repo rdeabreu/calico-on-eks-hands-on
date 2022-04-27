@@ -154,7 +154,7 @@ And now, implement DPI for them:
 kubectl create -f manifests/dpi/dpi.yaml
 ```
 
-This will create a daemonset, with some pods running in the tigera-dpi namesapce. The pods will take a while to be ready dependiong on the cluster you created, you can check progress with:
+This will create a daemonset, with some pods running in the tigera-dpi namesapce. The pods will take a while to be ready depending on the cluster you created, you can check progress with:
   
 ```
 kubectl get pod -n tigera-dpi -w

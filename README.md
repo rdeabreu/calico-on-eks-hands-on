@@ -30,21 +30,6 @@ By default, flow logs are collected every 5 minutes. We will decrease that time 
 kubectl patch felixconfiguration.p default -p '{"spec":{"flowLogsFlushInterval":"30s"}}'
 ```
 
-### Create a Tier structure
-
-Tiers are a hierarchical construct used to group policies and enforce higher precedence policies that cannot be circumvented by other teams. 
-
-All Calico and Kubernetes security policies reside in tiers. You can start “thinking in tiers” by grouping your teams and types of policies within each group. The command below will create three tiers (quarantine, platform, and security):
-
-```
-kubectl create -f manifests/tiers/tiers.yaml
-```
-For normal policy processing (without apply-on-forward, pre-DNAT, and do-not-track), if no policies within a tier apply to endpoints, the tier is skipped, and the tier’s implicit deny behavior is not executed.
-
-For example, if policy D in Tier 2 includes a Pass action rule, but no policy matches endpoints in Tier 3, Tier 3 is skipped, including the end of tier deny. The first policy with a matching endpoint is in Tier 4, policy J.
-
-![endpoint-match](./img/endpoint-match.svg)
-
 ### Deploy an application
 
 We included an small test application, but you can use your own:
@@ -56,7 +41,7 @@ kubectl create -f manifests/deployments/yaobank.yaml
 Make sure all pods are running:
 
 ```
-kubectl get pod -n yaobank 
+kubectl get pod -n yaobank -l pci=true
 ```
 
 If using the test application above, expose the frontend service in your EKS cluster:
@@ -72,6 +57,21 @@ kubectl get svc -n yaobank
 ```
 
 You will see the yaobank deployment the corresponding label "pci=true", that label will be matched with our policies to isolate the PCI workloads, and show how Calico's tiered security policies work.
+
+### Create a Tier structure
+
+Tiers are a hierarchical construct used to group policies and enforce higher precedence policies that cannot be circumvented by other teams. 
+
+All Calico and Kubernetes security policies reside in tiers. You can start “thinking in tiers” by grouping your teams and types of policies within each group. The command below will create three tiers (quarantine, platform, and security):
+
+```
+kubectl create -f manifests/tiers/tiers.yaml
+```
+For normal policy processing (without apply-on-forward, pre-DNAT, and do-not-track), if no policies within a tier apply to endpoints, the tier is skipped, and the tier’s implicit deny behavior is not executed.
+
+For example, if policy D in Tier 2 includes a Pass action rule, but no policy matches endpoints in Tier 3, Tier 3 is skipped, including the end of tier deny. The first policy with a matching endpoint is in Tier 4, policy J.
+
+![endpoint-match](./img/endpoint-match.svg)
 
 ### Apply the Security Policies
 

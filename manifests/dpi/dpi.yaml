@@ -1,0 +1,7 @@
+apiVersion: projectcalico.org/v3
+kind: DeepPacketInspection
+metadata:
+  name: sample-dpi
+  namespace: default
+spec:
+  selector: app == "nginx"

@@ -1,0 +1,23 @@
+apiVersion: crd.projectcalico.org/v1
+kind: NetworkPolicy
+metadata:
+  name: default.dpi-test-policy
+  namespace: default
+spec:
+  egress:
+  - action: Allow
+    destination: {}
+    source: {}
+  ingress:
+  - action: Allow
+    destination:
+      ports:
+      - 80
+    protocol: TCP
+    source: {}
+  order: 25
+  selector: app == "nginx"
+  tier: default
+  types:
+  - Ingress
+  - Egress

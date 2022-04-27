@@ -11,7 +11,7 @@ Calico can be used as a CNI, or you can decide to use AWS VPC networking and hav
 We will use the second approach during the workshop. Below an example on how to create a two nodes cluster with an smaller footprint, but feel free to create your EKS cluster with the parameters you prefer. Do not forget to include the region if different than the default on your account.
 
 ```
-eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.large
+eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.xlarge
 ```
 
 ### Connect your cluster to Calico Cloud

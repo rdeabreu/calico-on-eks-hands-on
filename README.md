@@ -121,6 +121,59 @@ The policy will be created at the end of your policy chain (at the bottom of the
 
 Now you should be able to access the yaobank application in your browser.
   
+## Deep Packet Inspection
+  
+Deploy a couple of pods for testing:
+  
+```
+kubectl run nginx1 --image nginx:latest
+kubectl run nginx2 --image nginx:latest
+```
+
+Expose one of the pods:
+  
+```
+kubectl expose pod nginx1 --name nginx-svc --port 80
+```
+  
+Label both pods, so we can open the traffic for them with a security polciy,and they do not hit the default deny rule:
+  
+```
+kubectl label pod --all app=nginx
+```
+  
+Then, create a policy for the pods:
+  
+```
+kubectl delete -f manifests/netpol/additional/dpi/dpi-test-policy.yaml
+```
+
+And now, implement DPI for them:
+  
+```
+kubectl create -f manifests/dpi/dpi.yaml
+```
+
+The pods will take a while to be ready dependiong on the cluster you created, you can check proress with:
+  
+```
+kubectl get pod -n tigera-dpi -w
+```
+  
+Once they are running test the DPI feature entering the nginx2 pod, and executing the curl call below:
+  
+```
+kubectl exec -it nginx1 -- sh
+```
+
+```
+curl http://nginx-svc/secid_canceltoken.cgi -H 'X-CMD: Test' -H 'X-KEY: Test' -XPOST
+```
+  
+Verify you are getting an alert:
+  
+![dpi-alert](./img/dpi-alert.png)
+  
 ## Honeypods
   
 https://docs.tigera.io/threat/honeypod/honeypods

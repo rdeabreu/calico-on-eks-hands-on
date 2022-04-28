@@ -247,6 +247,12 @@ kubectl delete -f manifests/netpol/additional/yaobank
 ```
 kubectl delete -f manifests/netpol/additional/dpi/dpi-test-policy.yaml
 ```
+  
+Delete the tiers:
+  
+```
+kubectl delete -f manifests/tiers/tiers.yaml
+```
 
 Remove the yaobank application:
   

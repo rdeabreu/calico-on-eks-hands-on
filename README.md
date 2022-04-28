@@ -88,7 +88,7 @@ Apply all the policies in the directory below:
 kubectl create -f manifests/netpol
 ```
 
-That will create a quarantine policy we will use later, another policy to protect our coredns service, and a third policy in case we want to enforce traffic on the k8s nodes themselves.
+That will create a quarantine policy we will use later, another policy to protect our coredns service, a third policy in case we want to enforce traffic on the k8s nodes themselves, and finally a policy to allow us to run compliance reports on demand.
 
 Now let's create the polcies in the folder below:
 

@@ -4,4 +4,4 @@ metadata:
   name: daily-production-inventory
 spec:
   reportType: inventory
-  schedule: 45 8 * * *
+  schedule: 0 9 * * *

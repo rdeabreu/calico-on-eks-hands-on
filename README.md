@@ -203,38 +203,10 @@ NAME                         CREATED AT
 daily-production-inventory   2022-04-28T06:48:06Z
 ```
 
-
-> Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
+  
+> You will need to edit the report to adjust to the correct date, so you do not have to wait for the next daily schedule
   
   
-> These reports are scheduled to run at a particular time (around 9:00 GMT). It is possible to run those on demand, but for a new created cluster, elastic will not have the enough amount of data to run them yet. So, you will need to do the procedure below after a while.
-  
-  
-Download the pod definition below, which will allow us to run any of the reports on demand:
-  
-```
-curl -O https://docs.tigera.io/manifests/compliance-reporter-pod.yaml
-```
-  
-Edit the three parameters below to match one of the reports just created:
-  
-* TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"
-* TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)
-* TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run if we have just few pods running in the environment.
-  
-Run the report on demand:
-  
-```
-kubectl create -f compliance-reporter-pod.yaml
-```
-
-Check the report is running:
-  
-```
-kubectl get pod -n tigera-compliance
-```
-  
-The report will go from a "Running" state to a "Completed" state once it is done (it likely will complete before the time you specified as end time).
   
 Go to the Compliance menu, and download the report clicking in the arrow pointing down to examine its content.
 

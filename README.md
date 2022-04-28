@@ -182,7 +182,7 @@ Let's implement a couple of reports:
 kubectl create -f manifests/compliance/
 ```
   
-As reports are scheduled using a cronjob format, and we will not like to wait until the next occurrence of them, let's check the timestamp they have been created at, as we will use that to run a report on demand:
+As reports are scheduled using a cronjob format, and we will not like to wait until the next occurrence of them, let's check the timestamp they have been created at, as we will use that value to run a report on demand:
   
 ```
 kubectl get globalreports
@@ -208,9 +208,9 @@ curl -O https://docs.tigera.io/manifests/compliance-reporter-pod.yaml
   
 Edit the three parameters below to match one of teh reports just created:
   
-TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"
-TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)
-TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run.
+* TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"\
+* TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)\
+* TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run.
   
 Run the report on demand:
   

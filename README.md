@@ -17,6 +17,10 @@ eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.xlarge
 
 ### Connect your cluster to Calico Cloud
 
+Subscribe to the free Calico Cloud trial on the link below:
+
+*https://www.calicocloud.io/home
+
 Go to the "Managed clusters" section in Calico Cloud once you login, and click on the "Connect Cluster" button, then leave "Amazon EKS" selected, and give a name to your cluster, and click "Next". Read the cluster requirements in teh next section, and click "Next". Finally, copy the kubectl command you must run in order to connect your cluster to the management cluster for your Calico Cloud instance.
 
 ![managed-clusters](./img/managed-clusters.png)

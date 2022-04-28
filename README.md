@@ -1,5 +1,6 @@
 # Hands-on EKS Workshop
 
+
 ## Preparation
 
 Once you clone the repo, all the yaml files to be applied below are in the "manifests" folder.
@@ -19,6 +20,7 @@ eksctl create cluster --name <CLUSTER_NAME> --version 1.21 --node-type t3.xlarge
 Go to the "Managed clusters" section in Calico Cloud once you login, and click on the "Connect Cluster" button, then leave "Amazon EKS" selected, and give a name to your cluster, and click "Next". Read the cluster requirements in teh next section, and click "Next". Finally, copy the kubectl command you must run in order to connect your cluster to the management cluster for your Calico Cloud instance.
 
 ![managed-clusters](./img/managed-clusters.png)
+
 
 ## Reduce the Attack surface of your environment, and follow a Zero Trust approach
 
@@ -67,6 +69,7 @@ All Calico and Kubernetes security policies reside in tiers. You can start “th
 ```
 kubectl create -f manifests/tiers/tiers.yaml
 ```
+
 For normal policy processing (without apply-on-forward, pre-DNAT, and do-not-track), if no policies within a tier apply to endpoints, the tier is skipped, and the tier’s implicit deny behavior is not executed.
 
 For example, if policy D in Tier 2 includes a Pass action rule, but no policy matches endpoints in Tier 3, Tier 3 is skipped, including the end of tier deny. The first policy with a matching endpoint is in Tier 4, policy J.
@@ -196,7 +199,9 @@ NAME                         CREATED AT
 daily-production-inventory   2022-04-28T06:48:06Z
 ```
 
+
 > Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
+  
   
 Download the pod definition below, which will allow us to run any of the reports on demand:
   
@@ -204,11 +209,11 @@ Download the pod definition below, which will allow us to run any of the reports
 curl -O https://docs.tigera.io/manifests/compliance-reporter-pod.yaml
 ```
   
-Edit the three parameters below to match one of teh reports just created:
+Edit the three parameters below to match one of the reports just created:
   
 * TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"
 * TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)
-* TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run.
+* TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run if we have just few pods running in the environment.
   
 Run the report on demand:
   
@@ -222,15 +227,15 @@ Check the report is running:
 kubectl get pod -n tigera-compliance
 ```
   
-The report will go from a running state to completed once it is done (it can potentially complete before the time you specified as end time).
+The report will go from a "Running" state to a "Completed" state once it is done (it likely will complete before the time you specified as end time).
   
 Go to the Compliance menu, and download the report to examine its content.
-
   
-
+  
 ## Honeypods
   
 https://docs.tigera.io/threat/honeypod/honeypods
+  
   
 ## Housekeeping
   

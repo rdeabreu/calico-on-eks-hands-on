@@ -229,8 +229,9 @@ kubectl get pod -n tigera-compliance
   
 The report will go from a "Running" state to a "Completed" state once it is done (it likely will complete before the time you specified as end time).
   
-Go to the Compliance menu, and download the report to examine its content.
-  
+Go to the Compliance menu, and download the report clicking in the arrow pointing down to examine its content.
+
+![compliance-report](./img/compliance-report.png)
   
 ## Honeypods
   

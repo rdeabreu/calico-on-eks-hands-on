@@ -207,6 +207,9 @@ daily-production-inventory   2022-04-28T06:48:06Z
 > Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
   
   
+> These reports are scheduled to run at a particular time (around 9:00 GMT). It is possible to run those on demand, but for a new created cluster, elastic will not have the enough amount of data to run them yet. So, potentially you will need to do the procedure below after a while.
+  
+  
 Download the pod definition below, which will allow us to run any of the reports on demand:
   
 ```

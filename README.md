@@ -174,13 +174,65 @@ Verify you are getting an alert:
   
 ![dpi-alert](./img/dpi-alert.png)
   
+## Compliance reports
+  
+Let's implement a couple of reports:
+
+```
+kubectl create -f manifests/compliance/
+```
+  
+As reports are scheduled using a cronjob format, and we will not like to wait until the next occurrence of them, let's check the timestamp they have been created at, as we will use that to run a report on demand:
+  
+```
+kubectl get globalreports
+```
+
+You will see something like the output below:
+  
+```
+$ kubectl get globalreports
+NAME                         CREATED AT
+daily-production-inventory   2022-04-28T06:48:06Z
+```
+
+```
+### Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
+```
+  
+Download the pod definition below, which will allow us to run any of the reports on demand:
+  
+```
+curl -O https://docs.tigera.io/manifests/compliance-reporter-pod.yaml
+```
+  
+Edit the three parameters below to match one of teh reports just created:
+  
+TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"
+TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)
+TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run.
+  
+Run the report on demand:
+  
+```
+kubectl create -f compliance-reporter-pod.yaml
+```
+
+Check the report is running:
+  
+```
+kubectl get pod -n tigera-compliance
+```
+  
+The report will go from a running state to completed once it is done (it can potentially complete before the time you specified as end time).
+  
+Go to the Compliance menu, and download the report to examine its content.
+
+  
+
 ## Honeypods
   
 https://docs.tigera.io/threat/honeypod/honeypods
-  
-## Compliance reports
-  
-https://docs.tigera.io/compliance/overview
   
 ## Housekeeping
   

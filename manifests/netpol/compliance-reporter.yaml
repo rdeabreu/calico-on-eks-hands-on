@@ -1,0 +1,24 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: platform.compliance-reporter
+spec:
+  tier: platform
+  order: 2
+  selector: k8s-app == "compliance-reporter"
+  namespaceSelector: ''
+  serviceAccountSelector: ''
+  ingress:
+    - action: Allow
+      source: {}
+      destination: {}
+  egress:
+    - action: Allow
+      source: {}
+      destination: {}
+  doNotTrack: false
+  applyOnForward: false
+  preDNAT: false
+  types:
+    - Ingress
+    - Egress

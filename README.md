@@ -196,9 +196,7 @@ NAME                         CREATED AT
 daily-production-inventory   2022-04-28T06:48:06Z
 ```
 
-```
-### Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
-```
+> Please note if the cluster is in a different region it will not reflect the time of your workstation, that is the reason we are grabbing the time at what the resource was created
   
 Download the pod definition below, which will allow us to run any of the reports on demand:
   
@@ -208,8 +206,8 @@ curl -O https://docs.tigera.io/manifests/compliance-reporter-pod.yaml
   
 Edit the three parameters below to match one of teh reports just created:
   
-* TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"\
-* TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)\
+* TIGERA_COMPLIANCE_REPORT_NAME -> Change it for "daily-production-inventory"
+* TIGERA_COMPLIANCE_REPORT_START_TIME -> Change it for the timestamp you retrieved when creating the report (2022-04-28T06:48:06Z in the example above)
 * TIGERA_COMPLIANCE_REPORT_END_TIME -> Add a couple of minutes as end time. The report should be fairly quick to run.
   
 Run the report on demand:

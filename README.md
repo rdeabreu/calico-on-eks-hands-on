@@ -128,6 +128,10 @@ The policy will be created at the end of your policy chain (at the bottom of the
 
 Now you should be able to access the yaobank application in your browser.
   
+## About Global ThreatFeeds
+
+https://docs.calicocloud.io/threat/global-threatfeed/
+  
 ## Deep Packet Inspection
   
 Deploy a couple of pods for testing:

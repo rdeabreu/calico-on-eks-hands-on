@@ -1,0 +1,15 @@
+apiVersion: crd.projectcalico.org/v1
+kind: GlobalReport
+metadata:
+  name: daily-cis-results
+spec:
+  cis:
+    highThreshold: 100
+    includeUnscoredTests: true
+    medThreshold: 50
+    numFailedTests: 5
+    resultsFilters:
+    - benchmarkSelection:
+        kubernetesVersion: "1.21"
+  reportType: cis-benchmark
+  schedule: 0 9 * * *

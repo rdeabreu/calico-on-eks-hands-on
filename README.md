@@ -217,8 +217,8 @@ Go to the Compliance menu, and download the report clicking in the arrow pointin
 ![compliance-report](./img/compliance-report.png)
   
 ## Honeypods
-  
-https://docs.tigera.io/threat/honeypod/honeypods
+
+https://docs.calicocloud.io/threat/honeypod/honeypods
   
   
 ## Housekeeping

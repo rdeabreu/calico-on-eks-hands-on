@@ -197,11 +197,11 @@ Then you can scan your own images for this part of the exercise, however we will
 > You must have the docker daemon running on the system where you run the following commands
 
 ```
-docker pull  tigeralabs.azurecr.io/boutiqueshop-demo/checkoutservice:v0.3.2
+docker pull calico/yaobank-database:certification
 ```
 
 ```
-./tigera-scanner scan tigeralabs.azurecr.io/boutiqueshop-demo/checkoutservice:v0.3.2 --apiurl $CC_URL --token $CC_TOKEN
+./tigera-scanner scan calico/yaobank-database:certification --apiurl $CC_URL --token $CC_TOKEN
 ```
 
 At this point we will install Calico Cloud admission controller to prevent those images to be deployed. For this let's create a directory where we will create a TLS certificate and key pair. These will be used for securing TLS communication between the Kubernetes API server and the Admission controller:

@@ -128,6 +128,10 @@ The policy will be created at the end of your policy chain (at the bottom of the
 
 Now you should be able to access the yaobank application in your browser.
   
+## About Global ThreatFeeds
+
+https://docs.calicocloud.io/threat/global-threatfeed/
+
 ## Compliance reports
 
 Let's implement a couple of reports:
@@ -162,10 +166,6 @@ kubectl patch globalreport daily-production-inventory -p '{"spec": {"schedule": 
 Go to the Compliance menu, and download the report clicking in the arrow pointing down to examine its content.
 
 ![compliance-report](./img/compliance-report.png)
-  
-## About Global ThreatFeeds
-
-https://docs.calicocloud.io/threat/global-threatfeed/
 
 ## Image Assurance
 
@@ -365,5 +365,3 @@ Remove the cluster if not needed:
 ```
 eksctl delete cluster <CLUSTER_NAME> 
 ```
-
-

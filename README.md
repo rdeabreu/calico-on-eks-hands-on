@@ -231,7 +231,7 @@ kubectl apply -f ./tigera-image-assurance-admission-controller-deploy.yaml
 Now let's return to our working directory, and delete the yaobank resources (among thenm the namespaced policies we created):
   
 ```
-cd ../calico-on-eks-hands-on 
+cd ..
 kubectl delete -f manifests/netpol/ws/
 kubectl delete -f manifests/netpol/additional/yaobank
 kubectl delete svc yaobank -n yaobank

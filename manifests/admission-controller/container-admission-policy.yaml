@@ -1,0 +1,16 @@
+apiVersion: containersecurity.tigera.io/v1beta1
+kind: ContainerAdmissionPolicy
+metadata:
+  name: reject-failed
+spec:
+  selector: all()
+  namespaceSelector: "image-assurance == 'enabled'"
+  order: 1
+  rules:
+    - action: "Allow"
+      imageScanStatus:
+        operator: IsOneOf
+        values:
+          - "Pass"
+          - "Warn"
+    - action: "Reject"

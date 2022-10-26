@@ -127,10 +127,135 @@ The policy will be created at the end of your policy chain (at the bottom of the
 ![move-policy](./img/move-policy.png)
 
 Now you should be able to access the yaobank application in your browser.
+
+## Image Assurance
+
+Image Assurance is based on the Common Vulnerabilities and Exposures (CVE) system, which provides a catalog of publicly-known security vulnerabilities and exposures. Image Assurance provides a command-line interface (CLI) to scan images, with the option to send results to the Manager UI. Additionally, Calico Cloud uses Kubernetes Validating Webhook Configuration to register an Admission Controller as a callback to accept or reject resources that create pods (such as deployments and daemonsets).
+
+Let's start downloading the CLI scanner, for that, please go to the Welcome page of Calico Cloud (denoted with the Home icon ![Home Welcome Icon](./img/home-icon.png)). You must have docker daemon running on the system where you plan to run the scanner, as the images will be downloaded and scanned locally on that system.
+
+Then make the file executable:
+
+```
+chmod +x ./tigera-scanner
+```
+
+Now let's scan a couple of images we intent to deploy. For this you will need two items, one being the unique FQDN of the management cluster displayed in the address/navigation bar of your browser, and the other a token to upload the scan results to it. You can obtain both going to the menu "Image Assurance > Scan Results", and then clicking on the far right of the screen on "Settings":
+
+![Scan Settings screen](./img/scan-settings.png)
+
+Put those parameters into variables, so we can use them later:
+
+```
+export CC_URL=<URL retrieved>
+```
+```
+export CC_TOKEN=<TOKEN>
+```
+
+Then you can scan your own images for this part of the exercise, however we will be demonstrating how to accomplish this with three images for the application we just rolled out:
+  
+> You must have the docker daemon running on the system where you run the following commands
+
+```
+docker pull  tigeralabs.azurecr.io/boutiqueshop-demo/checkoutservice:v0.3.2
+```
+
+```
+./tigera-scanner scan tigeralabs.azurecr.io/boutiqueshop-demo/checkoutservice:v0.3.2 --apiurl $CC_URL --token $CC_TOKEN
+```
+
+At this point we will install Calico Cloud admission controller to prevent those images to be deployed. For this let's create a directory where we will create a TLS certificate and key pair. These will be used for securing TLS communication between the Kubernetes API server and the Admission controller:
+
+> You must have a reasonably recent version of OpenSSL, or LibreSSL to successfully generate the keys, as older releases do not support the '-addext' argument which is required to include a 'subjectAltName' in the certificates.
+
+Additionally we will download and configure the Admission Controller manifests, and configure the Kubernetes API server to send admission requests to our Admission Controller only for resources from relevant namespaces (in our example the yaobank namesapace label tenant=tenant1):
+
+```
+mkdir admission-controller-install && cd admission-controller-install
+export URL="https://installer.calicocloud.io/manifests/v3.14.1-1/manifests" && curl ${URL}/generate-open-ssl-key-cert-pair.sh | bash
+export URL="https://installer.calicocloud.io/manifests/v3.14.1-1/manifests" && \
+export IN_NAMESPACE_SELECTOR_KEY="image-assurance" && \
+export IN_NAMESPACE_SELECTOR_VALUES="enabled" && \
+curl ${URL}/install-ia-admission-controller.sh | bash
+```
+
+> Please note this will only work on linux operating systems, if you run a different distribution you may need to adjust them yourself. There is a README file in the manifests/admission-controller folder with some hints on how to achieve this.
+  
+Apply the generated manifest:
+
+```
+kubectl apply -f ./tigera-image-assurance-admission-controller-deploy.yaml
+```
+
+Now let's return to our working directory, and delete the yaobank resources (among thenm the namespaced policies we created):
+  
+```
+cd ../calico-aks-hands-on 
+kubectl delete -f manifests/netpol/ws/
+kubectl delete -f manifests/netpol/additional/yaobank
+kubectl delete svc yaobank -n yaobank
+kubectl delete -f manifests/deployments/yaobank.yaml --grace-period=0
+```
+
+Then apply an admission controller policy:
+
+```
+kubectl apply -f manifests/admission-controller/container-admission-policy.yaml
+```
+
+This policy will prevent the deployment of any image which scan result is 'Fail' in the namespaces the admission controller is monitoring. Let's label the namespaces as we have defined:
+
+```
+kubectl label namespace yaobank image-assurance=enabled
+```
+  
+Try to create the application again:
+  
+```
+kubectl apply -f manifests/deployments/yaobank.yaml
+```
+
+As you should have seen, the application deployment has been prevented by the admission controller, as they do not satisfy the criteria applied because they contain some CVEs which need to be addressed.
   
 ## About Global ThreatFeeds
 
 https://docs.calicocloud.io/threat/global-threatfeed/
+
+## Compliance reports
+
+Let's implement a couple of reports:
+
+```
+kubectl create -f manifests/compliance/
+```
+
+As reports are scheduled using a cronjob format, and we will not like to wait until the next occurrence of them, let's check the timestamp they have been created at, as we will use that value to run a report on demand:
+
+```
+kubectl get globalreports
+```
+
+You will see something like the output below:
+
+```
+$ kubectl get globalreports
+NAME                         CREATED AT
+daily-production-inventory   2022-04-28T06:48:06Z
+```
+
+
+> You will need to edit the report to adjust to the correct date, so you do not have to wait for the next daily schedule
+
+You can patch the report with the right values executing for example:
+
+```
+kubectl patch globalreport daily-production-inventory -p '{"spec": {"schedule": "%M %H * * *"}}'
+```
+
+Go to the Compliance menu, and download the report clicking in the arrow pointing down to examine its content.
+
+![compliance-report](./img/compliance-report.png)
   
 ## Deep Packet Inspection
   
